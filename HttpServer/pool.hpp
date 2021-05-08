@@ -36,11 +36,9 @@ public:
                         auto currentThread = std::move(ptr->taskQueue.front());
                         ptr->taskQueue.pop();
                         lock.unlock();
-
                         printf("Thread %zuth running\n", i);
                         currentThread();
                         printf("Thread %zuth finish\n", i);
-
                         lock.lock();
                     } else if (ptr->isStop.load()) {
                         break;

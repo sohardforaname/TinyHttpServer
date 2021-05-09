@@ -63,22 +63,22 @@ void Server::Handle(SOCKET sockfd, const std::string& root)
     memset(buffer.get(), 0, 1 << 10);
     FD_SET set;
     FD_ZERO(&set);
-    FD_SET(sockfd,&set);
+    FD_SET(sockfd, &set);
     timeval timeout;
     timeout.tv_sec = 10;//timeout is 10s
-    int result=0;
+    int result = 0;
 
     //todo: use select on file
     result = select(sockfd, &set, NULL, NULL, &timeout);
-    if (result <=0) {//socket error or timeout
+    if (result <= 0) {//socket error or timeout
         closesocket(sockfd);
         FD_CLR(sockfd, &set);
         printf("recv error\n");
         return;
     }
-    if (FD_ISSET(sockfd, &set)) {//sockfd is readable
+    if (FD_ISSET(sockfd, &set)) {  //sockfd is readable
         receiveLength = recv(sockfd, buffer.get(), 1 << 10, 0);
-        if (receiveLength <= 0) {//error or client socket has already closed
+        if (receiveLength <= 0) {  //error or client socket has already closed
             closesocket(sockfd);
             FD_CLR(sockfd, &set);
             printf("recv error\n");
@@ -95,7 +95,6 @@ void Server::Handle(SOCKET sockfd, const std::string& root)
         FD_CLR(sockfd, &set);
         printf("recv error\n");
         return;
-
     }
 }
 

@@ -3,3 +3,5 @@ Debug/
 .vs/
 HttpServer/Debug/
 HttpServer/x64/
+serverconfig.txt
+

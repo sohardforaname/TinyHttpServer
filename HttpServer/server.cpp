@@ -1,9 +1,9 @@
-#include "server.h"
+ï»¿#include "server.h"
 
 static std::atomic_bool runFlag(true);
 
 /*
-* ´´½¨¼àÌısocket
+* è¯»å–é…ç½®æ–‡ä»¶å’Œåˆ›å»ºç›‘å¬socket
 * @param 
 * @return 
 */
@@ -15,7 +15,7 @@ void Server::CreateListenSocket()
         exit(-1);
     }
     Configuration configuration;
-    configuration.ReadConfigurationFile("/testhtml/serverconfig");
+    configuration.ReadConfigurationFile("./serverconfig.txt");
 
     serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -48,9 +48,9 @@ void Server::CreateListenSocket()
 }
 
 /*
-* ·Ç×èÈûµØµÈ´ı¿Í»§¶ËµÄÇëÇó
+* éé˜»å¡åœ°ç­‰å¾…å®¢æˆ·ç«¯è¿æ¥
 * @param
-* @return ¿Í»§¶ËÇëÇóµÄsocket id£¬ Ê§°Ü·µ»Ø-1
+* @return å®¢æˆ·ç«¯è¿æ¥çš„socket
 */
 SOCKET Server::Accept()
 {
@@ -67,8 +67,8 @@ SOCKET Server::Accept()
 }
 
 /*
-* ´¦ÀíAcceptº¯ÊıÖĞ»ñÈ¡µÄ¿Í»§¶ËÇëÇósocket
-* @param ¿Í»§¶ËÇëÇósocket£»·şÎñÆ÷ÎÄ¼ş¸ùÄ¿Â¼
+* å¤„ç†Acceptå‡½æ•°ä¸­è·å–çš„å®¢æˆ·ç«¯è¯·æ±‚socket
+* @param å®¢æˆ·ç«¯è¯·æ±‚socketï¼›æœåŠ¡å™¨æ–‡ä»¶æ ¹ç›®å½•
 * @return
 */
 void Server::Handle(SOCKET clientSocket, const std::string& root)
@@ -103,8 +103,8 @@ void Server::Handle(SOCKET clientSocket, const std::string& root)
 }
 
 /*
-* ´¦ÀíÍË³öĞÅºÅ
-* @param ÏµÍ³µÄĞÅºÅ
+* ç³»ç»Ÿä¿¡å·å¤„ç†å‡½æ•°
+* @param ç³»ç»Ÿä¿¡å·
 * @return
 */
 void HandleSignal(int sign)
@@ -114,7 +114,7 @@ void HandleSignal(int sign)
 }
 
 /*
-* ·şÎñÆ÷Ö÷º¯Êı
+* æœåŠ¡å™¨ä¸»å‡½æ•°
 * @param
 * @return
 */

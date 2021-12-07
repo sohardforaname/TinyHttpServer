@@ -1,5 +1,10 @@
 #include "configuration.h"
 
+/*
+* 读取配置文件
+* @param 配置文件路径
+* @return
+*/
 void Configuration::ReadConfigurationFile(const char* filePath)
 {
 	FILE* fp = fopen(filePath, "rb");

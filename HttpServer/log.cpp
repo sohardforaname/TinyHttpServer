@@ -1,5 +1,9 @@
 #include "Log.h"
 
+/*
+* 这个库没有投入使用，别管
+*/
+
 static FILE* logfp;
 void Log::PrintTime()
 {

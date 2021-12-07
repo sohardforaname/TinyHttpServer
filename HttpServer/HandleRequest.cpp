@@ -17,6 +17,11 @@ const std::unordered_map<std::string, std::string> contentTypeMap = {
     { "js", "text/javascript" }
 };
 
+/*
+* 从请求的文件名中获得响应类型
+* @param 文件名
+* @return 响应类型
+*/
 const std::string& HandleRequest::GetTypeFromFilePath(const char* filePath)
 {
     const char *ptr = filePath, *tag = nullptr;
@@ -31,6 +36,11 @@ const std::string& HandleRequest::GetTypeFromFilePath(const char* filePath)
         : (*contentTypeMap.find(std::string("js"))).second;
 }
 
+/*
+* 从请求头的字段中获得这个字段的第一个属性（一般来说大多数字段只有一个属性）
+* @param 请求头字段名
+* @return 属性字符串
+*/
 const std::string& HandleRequest::GetFirstValue(const std::string& key) 
 {
     static std::string emptyString = std::string();
@@ -39,6 +49,12 @@ const std::string& HandleRequest::GetFirstValue(const std::string& key)
         : emptyString;
 }
 
+
+/*
+* 读取文件和发送响应
+* @param
+* @return
+*/
 void HandleRequest::SendResponse()
 {
     auto buffer = std::unique_ptr<char[]>(new char[1 << 10]);

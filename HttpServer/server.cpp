@@ -2,6 +2,11 @@
 
 static std::atomic_bool runFlag(true);
 
+/*
+* 创建监听socket
+* @param 
+* @return 
+*/
 void Server::CreateListenSocket()
 {
     WSADATA wsaData;
@@ -42,13 +47,18 @@ void Server::CreateListenSocket()
     }
 }
 
+/*
+* 非阻塞地等待客户端的请求
+* @param
+* @return 客户端请求的socket id， 失败返回-1
+*/
 SOCKET Server::Accept()
 {
     SOCKADDR_IN clsckaddrin;
     int nameLen = sizeof(clsckaddrin);
     SOCKET clientSocket = accept(serverSocket, (sockaddr*)(&clsckaddrin), &nameLen);
     if (clientSocket == SOCKET_ERROR || WSAGetLastError()) {
-        Sleep(100);
+        //Sleep(100);
         return -1;
     }
     printf("client address: %s:%d\n",
@@ -56,18 +66,23 @@ SOCKET Server::Accept()
     return clientSocket;
 }
 
+/*
+* 处理Accept函数中获取的客户端请求socket
+* @param 客户端请求socket；服务器文件根目录
+* @return
+*/
 void Server::Handle(SOCKET clientSocket, const std::string& root)
 {
     auto buffer = std::unique_ptr<char[]>(new char[1 << 10]);
     int receiveLength = -1;
-    memset(buffer.get(), 0, 1 << 10);
+    // memset(buffer.get(), 0, 1 << 10);
     while (receiveLength == -1) {
         receiveLength = recv(clientSocket, buffer.get(), 1 << 10, 0);
         if (!runFlag.load())
             return;
         if (receiveLength == -1) {
             if (WSAEWOULDBLOCK == WSAGetLastError()) {
-                Sleep(100);
+                //Sleep(100);
                 continue;
             } else {
                 return;
@@ -75,7 +90,7 @@ void Server::Handle(SOCKET clientSocket, const std::string& root)
         }
     }
     if (receiveLength < 0) {
-        printf("recv error\n");
+        // printf("recv error\n");
         return;
     }
     buffer[receiveLength] = 0;
@@ -87,12 +102,22 @@ void Server::Handle(SOCKET clientSocket, const std::string& root)
     request->SendResponse();
 }
 
+/*
+* 处理退出信号
+* @param 系统的信号
+* @return
+*/
 void HandleSignal(int sign)
 {
     runFlag.store(false);
     //system("pause");
 }
 
+/*
+* 服务器主函数
+* @param
+* @return
+*/
 void Server::Loop()
 {
     ThreadPool pool(maxThread);
@@ -104,7 +129,7 @@ void Server::Loop()
             Handle,
             acceptedSocket,
             this->root);
-        //Handle(acceptedSocket, this->root);
+        // Handle(acceptedSocket, this->root);
     }
 };
 

@@ -7,6 +7,11 @@ const std::string host = "Server:";
 const std::string contentLength = "Content-Length:";
 const std::string newLine = "\r\n";
 
+/*
+* 生成响应头字符串
+* @param 响应类型字符串，响应体长度字符串
+* @return 响应头字符串
+*/
 std::string HttpGenerator::operator()(
     const std::string& contentType,
     const std::string& contentSize)

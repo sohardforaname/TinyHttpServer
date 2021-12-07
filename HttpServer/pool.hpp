@@ -37,9 +37,9 @@ public:
                         ptr->taskQueue.pop();
                         lock.unlock();
 
-                        printf("Thread %zuth running\n", i);
+                        // printf("Thread %zuth running\n", i);
                         currentThread();
-                        printf("Thread %zuth finish\n", i);
+                        // printf("Thread %zuth finish\n", i);
 
                         lock.lock();
                     } else if (ptr->isStop.load()) {
